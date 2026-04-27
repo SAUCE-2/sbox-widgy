@@ -31,7 +31,7 @@ export function widgySetupPageHtml(): string {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Steam · Widgy</title>
+  <title>s&box - widgy</title>
   <style>
     :root {
       font-family: system-ui, sans-serif;
