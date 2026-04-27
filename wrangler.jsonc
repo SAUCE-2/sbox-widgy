@@ -1,0 +1,18 @@
+{
+	"name": "sbox-widgy",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-04-01",
+	"rules": [
+		{
+			"type": "Data",
+			"globs": ["**/*.png"],
+			"fallthrough": true,
+		},
+	],
+	"kv_namespaces": [
+		{
+			"binding": "VALUE_SNAPSHOTS",
+			"id": "cf991eecad8642649db8dba18c3a9f3c",
+		}
+	],
+}

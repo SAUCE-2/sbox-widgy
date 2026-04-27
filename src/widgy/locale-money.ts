@@ -1,0 +1,172 @@
+/**
+ * Steam ECurrency (Appendix A) → ISO 4217 for Intl, plus a sensible BCP-47 locale from country.
+ * @see https://partner.steamgames.com/doc/store/pricing/currencies
+ */
+
+const CURRENCY_ID_TO_ISO: Record<number, string> = {
+  1: "USD",
+  2: "GBP",
+  3: "EUR",
+  4: "CHF",
+  5: "RUB",
+  6: "PLN",
+  7: "BRL",
+  8: "JPY",
+  9: "NOK",
+  10: "IDR",
+  11: "MYR",
+  12: "PHP",
+  13: "SGD",
+  14: "THB",
+  15: "VND",
+  16: "KRW",
+  17: "TRY",
+  18: "UAH",
+  19: "MXN",
+  20: "CAD",
+  21: "AUD",
+  22: "NZD",
+  23: "CNY",
+  24: "INR",
+  25: "CLP",
+  26: "PEN",
+  27: "COP",
+  28: "ZAR",
+  29: "HKD",
+  30: "TWD",
+  31: "SAR",
+  32: "AED",
+  33: "SEK",
+  34: "ARS",
+  35: "ILS",
+  36: "BYN",
+  37: "KZT",
+  38: "KWD",
+  39: "QAR",
+  40: "CRC",
+  41: "UYU",
+  42: "BGN",
+  44: "CZK",
+  45: "DKK",
+  46: "HUF",
+  47: "RON",
+};
+
+/** Best-effort locale for number/currency formatting (Widgy shows data server-side). */
+const LOCALE_BY_COUNTRY: Record<string, string> = {
+  US: "en-US",
+  CA: "en-CA",
+  GB: "en-GB",
+  AU: "en-AU",
+  NZ: "en-NZ",
+  IE: "en-IE",
+  SG: "en-SG",
+  HK: "en-HK",
+  IN: "en-IN",
+  ZA: "en-ZA",
+  DE: "de-DE",
+  AT: "de-AT",
+  CH: "de-CH",
+  LI: "de-LI",
+  FR: "fr-FR",
+  BE: "fr-BE",
+  LU: "fr-LU",
+  NL: "nl-NL",
+  IT: "it-IT",
+  ES: "es-ES",
+  MX: "es-MX",
+  AR: "es-AR",
+  CL: "es-CL",
+  CO: "es-CO",
+  PE: "es-PE",
+  BR: "pt-BR",
+  PT: "pt-PT",
+  PL: "pl-PL",
+  CZ: "cs-CZ",
+  SK: "sk-SK",
+  HU: "hu-HU",
+  RO: "ro-RO",
+  BG: "bg-BG",
+  SE: "sv-SE",
+  NO: "nb-NO",
+  DK: "da-DK",
+  FI: "fi-FI",
+  IS: "is-IS",
+  EE: "et-EE",
+  LV: "lv-LV",
+  LT: "lt-LT",
+  JP: "ja-JP",
+  KR: "ko-KR",
+  CN: "zh-CN",
+  TW: "zh-TW",
+  TH: "th-TH",
+  VN: "vi-VN",
+  ID: "id-ID",
+  MY: "ms-MY",
+  PH: "en-PH",
+  TR: "tr-TR",
+  SA: "ar-SA",
+  AE: "ar-AE",
+  KW: "ar-KW",
+  QA: "ar-QA",
+  IL: "he-IL",
+  UA: "uk-UA",
+  RU: "ru-RU",
+  BY: "be-BY",
+  KZ: "kk-KZ",
+  HR: "hr-HR",
+  SI: "sl-SI",
+  RS: "sr-RS",
+  BA: "bs-BA",
+  MK: "mk-MK",
+  AL: "sq-AL",
+  GR: "el-GR",
+  CY: "el-CY",
+  MT: "mt-MT",
+  UK: "en-GB",
+  PR: "en-US",
+  UY: "es-UY",
+  CR: "es-CR",
+  EC: "es-EC",
+  PA: "es-PA",
+  BO: "es-BO",
+  PY: "es-PY",
+  GT: "es-GT",
+  SV: "es-SV",
+  HN: "es-HN",
+  NI: "es-NI",
+  EG: "ar-EG",
+  BH: "ar-BH",
+  JO: "ar-JO",
+  LB: "ar-LB",
+  OM: "ar-OM",
+  MO: "zh-MO",
+};
+
+export function iso4217FromSteamCurrencyId(currencyId: number): string {
+  return CURRENCY_ID_TO_ISO[currencyId] ?? "USD";
+}
+
+export function widgyLocaleFromCountry(countryAlpha2: string): string {
+  const c = countryAlpha2.trim().toUpperCase();
+  return LOCALE_BY_COUNTRY[c] ?? "en-US";
+}
+
+export function formatWidgyCurrency(
+  amount: number,
+  country: string,
+  currencyId: number,
+): string {
+  const locale = widgyLocaleFromCountry(country);
+  const currency = iso4217FromSteamCurrencyId(currencyId);
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 2,
+  }).format(amount);
+}
+
+export function formatWidgyInteger(n: number, country: string): string {
+  const locale = widgyLocaleFromCountry(country);
+  return new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(n);
+}
