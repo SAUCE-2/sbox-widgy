@@ -55,7 +55,7 @@ function widgyImportFileResponse(c: Context) {
   const origin = new URL(c.req.url).origin;
   const widgyDataUrl = `${origin}/widgy?steamid=${encodeURIComponent(q.steamid)}&country=${encodeURIComponent(q.country)}`;
   const bytes = buildWidgyFileBytes({
-    widgetName: "Steam · market",
+    widgetName: "s&box widgy",
     author: "sauce2",
     widgyDataUrl,
     workerOrigin: origin,
